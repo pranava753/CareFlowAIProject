@@ -1,0 +1,25 @@
+plan_id,specialty_key,specialty_name,typical_procedure,typical_procedure_code,estimated_cost_usd,requires_preauth,preauth_turnaround_business_days,plan_coverage_pct_after_deductible
+PLN-SILVER-100,cardiology,Cardiology,Stress Echocardiogram,CPT-93351,950,True,7,70
+PLN-SILVER-100,orthopedics,Orthopedics,"MRI, Knee without contrast",CPT-73721,1100,True,7,70
+PLN-SILVER-100,dermatology,Dermatology,"Skin Biopsy, punch",CPT-11104,210,False,0,70
+PLN-SILVER-100,ent,"Ear, Nose & Throat (ENT)",Diagnostic Nasal Endoscopy,CPT-31231,300,False,0,70
+PLN-SILVER-100,gastroenterology,Gastroenterology,"Colonoscopy, screening",CPT-45378,1600,True,7,70
+PLN-SILVER-100,neurology,Neurology,"MRI, Brain without contrast",CPT-70551,1250,True,7,70
+PLN-SILVER-100,endocrinology,Endocrinology,Thyroid Ultrasound,CPT-76536,280,False,0,70
+PLN-SILVER-100,general_medicine,General Medicine,Annual Wellness Visit,CPT-99397,150,False,0,70
+PLN-GOLD-200,cardiology,Cardiology,Stress Echocardiogram,CPT-93351,950,True,5,80
+PLN-GOLD-200,orthopedics,Orthopedics,"MRI, Knee without contrast",CPT-73721,1100,True,5,80
+PLN-GOLD-200,dermatology,Dermatology,"Skin Biopsy, punch",CPT-11104,210,False,0,80
+PLN-GOLD-200,ent,"Ear, Nose & Throat (ENT)",Diagnostic Nasal Endoscopy,CPT-31231,300,False,0,80
+PLN-GOLD-200,gastroenterology,Gastroenterology,"Colonoscopy, screening",CPT-45378,1600,True,5,80
+PLN-GOLD-200,neurology,Neurology,"MRI, Brain without contrast",CPT-70551,1250,True,5,80
+PLN-GOLD-200,endocrinology,Endocrinology,Thyroid Ultrasound,CPT-76536,280,False,0,80
+PLN-GOLD-200,general_medicine,General Medicine,Annual Wellness Visit,CPT-99397,150,False,0,80
+PLN-PLATINUM-300,cardiology,Cardiology,Stress Echocardiogram,CPT-93351,950,False,0,90
+PLN-PLATINUM-300,orthopedics,Orthopedics,"MRI, Knee without contrast",CPT-73721,1100,True,3,90
+PLN-PLATINUM-300,dermatology,Dermatology,"Skin Biopsy, punch",CPT-11104,210,False,0,90
+PLN-PLATINUM-300,ent,"Ear, Nose & Throat (ENT)",Diagnostic Nasal Endoscopy,CPT-31231,300,False,0,90
+PLN-PLATINUM-300,gastroenterology,Gastroenterology,"Colonoscopy, screening",CPT-45378,1600,True,3,90
+PLN-PLATINUM-300,neurology,Neurology,"MRI, Brain without contrast",CPT-70551,1250,True,3,90
+PLN-PLATINUM-300,endocrinology,Endocrinology,Thyroid Ultrasound,CPT-76536,280,False,0,90
+PLN-PLATINUM-300,general_medicine,General Medicine,Annual Wellness Visit,CPT-99397,150,False,0,90

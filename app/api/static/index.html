@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CareFlow</title>
+<style>
+  :root {
+    --bg: #f4f6f8;
+    --panel: #ffffff;
+    --border: #dde2e7;
+    --text: #1c2530;
+    --muted: #6b7684;
+    --accent: #2563eb;
+    --accent-dark: #1d4ed8;
+    --danger: #dc2626;
+    --danger-bg: #fef2f2;
+    --ok-bg: #f0fdf4;
+    --ok-border: #bbf7d0;
+    --user-bubble: #2563eb;
+    --assistant-bubble: #eef1f5;
+    --radius: 10px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+  header {
+    padding: 20px 28px 0;
+  }
+  header h1 { margin: 0 0 4px; font-size: 22px; }
+  header p { margin: 0 0 16px; color: var(--muted); font-size: 13.5px; }
+
+  .shared-bar {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    margin: 0 28px 16px;
+  }
+  .field { display: flex; flex-direction: column; gap: 4px; }
+  .field label { font-size: 11.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .03em; }
+  .field input, .field select, textarea {
+    font: inherit;
+    padding: 7px 10px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    background: #fff;
+    color: var(--text);
+  }
+  .field input { width: 170px; }
+
+  nav.tabs {
+    display: flex;
+    gap: 4px;
+    margin: 0 28px;
+    border-bottom: 1px solid var(--border);
+  }
+  nav.tabs button {
+    font: inherit;
+    font-size: 13.5px;
+    padding: 10px 16px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--muted);
+    border-bottom: 2px solid transparent;
+  }
+  nav.tabs button.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+
+  main { padding: 20px 28px 60px; max-width: 900px; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    margin-bottom: 16px;
+  }
+  .card h3 { margin: 0 0 4px; font-size: 15px; }
+  .card .hint { color: var(--muted); font-size: 12.5px; margin: 0 0 12px; }
+
+  textarea { width: 100%; min-height: 80px; resize: vertical; }
+
+  button.primary {
+    font: inherit;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 9px 18px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13.5px;
+    margin-top: 10px;
+  }
+  button.primary:hover { background: var(--accent-dark); }
+  button.primary:disabled { background: #a9b4c2; cursor: default; }
+  button.secondary {
+    font: inherit;
+    background: #fff;
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 9px 18px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 13.5px;
+    margin-top: 10px;
+    margin-right: 8px;
+  }
+  button.secondary:hover { background: #f1f3f5; }
+
+  .chat-log { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+  .bubble { max-width: 75%; padding: 10px 13px; border-radius: 12px; font-size: 13.5px; line-height: 1.45; white-space: pre-wrap; }
+  .bubble.user { align-self: flex-end; background: var(--user-bubble); color: #fff; border-bottom-right-radius: 3px; }
+  .bubble.assistant { align-self: flex-start; background: var(--assistant-bubble); color: var(--text); border-bottom-left-radius: 3px; }
+  .bubble.flagged { border: 1px solid var(--danger); }
+
+  .tool-calls { font-size: 11.5px; color: var(--muted); margin: 2px 0 0; padding-left: 2px; }
+  .tool-calls div { margin-top: 3px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+  pre.json {
+    background: #0f172a;
+    color: #d6e2f0;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    overflow-x: auto;
+    margin: 0;
+  }
+
+  .review-box {
+    background: var(--danger-bg);
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    font-size: 13px;
+  }
+  .completed-box {
+    background: var(--ok-bg);
+    border: 1px solid var(--ok-border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    font-size: 13px;
+  }
+
+  .spinner { display: inline-block; font-size: 12.5px; color: var(--muted); margin-left: 8px; }
+  .error-box { color: var(--danger); font-size: 12.5px; margin-top: 8px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>CareFlow</h1>
+  <p>AI care-coordination assistant &mdash; intake, insurance/scheduling, referrals, policy Q&amp;A, and the M5 human-in-the-loop workflow.</p>
+</header>
+
+<div class="shared-bar">
+  <div class="field">
+    <label>Channel</label>
+    <select id="channel">
+      <option value="web_form">web_form</option>
+      <option value="phone_transcript">phone_transcript</option>
+      <option value="email">email</option>
+      <option value="sms">sms</option>
+    </select>
+  </div>
+  <div class="field">
+    <label>Patient ID (optional)</label>
+    <input id="patientId" placeholder="e.g. P00001" />
+  </div>
+</div>
+
+<nav class="tabs">
+  <button class="tab-btn active" data-tab="intake">Intake</button>
+  <button class="tab-btn" data-tab="insurance">Insurance Chat</button>
+  <button class="tab-btn" data-tab="referral">Referral Chat</button>
+  <button class="tab-btn" data-tab="policy">Policy Q&amp;A</button>
+  <button class="tab-btn" data-tab="workflow">Workflow (M5)</button>
+</nav>
+
+<main>
+
+  <!-- INTAKE -->
+  <section class="panel active" id="panel-intake">
+    <div class="card">
+      <h3>Parse a patient message</h3>
+      <p class="hint">Runs the Intake Agent (M1) only &mdash; extracts specialty, symptoms, urgency, insurance ID, and flags clinical-advice requests. No tools are called.</p>
+      <textarea id="intake-text" placeholder="I'd like to book a Cardiology appointment. My insurance ID is INS-12345678. I've had occasional heart palpitations.">I'd like to book a Cardiology appointment. My insurance ID is INS-12345678. I've had occasional heart palpitations.</textarea>
+      <br/>
+      <button class="primary" onclick="runIntake()">Parse<span id="intake-spin" class="spinner"></span></button>
+      <div id="intake-error" class="error-box"></div>
+    </div>
+    <div class="card" id="intake-result-card" style="display:none">
+      <h3>Result</h3>
+      <pre class="json" id="intake-result"></pre>
+    </div>
+  </section>
+
+  <!-- INSURANCE CHAT -->
+  <section class="panel" id="panel-insurance">
+    <div class="card">
+      <h3>Insurance / Scheduling Agent</h3>
+      <p class="hint">Each message is its own self-contained turn (this demo doesn't carry memory between calls yet) &mdash; include the insurance ID / specialty again if a reply asks for it.</p>
+      <div class="chat-log" id="insurance-log"></div>
+      <textarea id="insurance-text" placeholder="Can you find me an available Cardiology slot and tell me my specialist copay? My insurance ID is INS-12345678."></textarea>
+      <br/>
+      <button class="primary" onclick="runAgentChat('insurance')">Send<span id="insurance-spin" class="spinner"></span></button>
+      <div id="insurance-error" class="error-box"></div>
+    </div>
+  </section>
+
+  <!-- REFERRAL CHAT -->
+  <section class="panel" id="panel-referral">
+    <div class="card">
+      <h3>Referral Tracking Agent <span style="font-weight:400;color:var(--muted);font-size:12px;">(MCP-backed)</span></h3>
+      <p class="hint">Same self-contained-turn behavior as the Insurance chat. Tool calls here go through the MCP server.</p>
+      <div class="chat-log" id="referral-log"></div>
+      <textarea id="referral-text" placeholder="I need a referral to orthopedics for ongoing knee pain follow-up."></textarea>
+      <br/>
+      <button class="primary" onclick="runAgentChat('referral')">Send<span id="referral-spin" class="spinner"></span></button>
+      <div id="referral-error" class="error-box"></div>
+    </div>
+  </section>
+
+  <!-- POLICY QA -->
+  <section class="panel" id="panel-policy">
+    <div class="card">
+      <h3>Policy / Insurance RAG Agent</h3>
+      <p class="hint">Grounded answers over the clinic policy corpus, with citations. Falls back honestly if nothing relevant is on file.</p>
+      <textarea id="policy-text" placeholder="What is the specialist copay and deductible for the Gold Complete 200 plan?"></textarea>
+      <br/>
+      <button class="primary" onclick="runPolicy()">Ask<span id="policy-spin" class="spinner"></span></button>
+      <div id="policy-error" class="error-box"></div>
+    </div>
+    <div class="card" id="policy-result-card" style="display:none">
+      <h3>Answer</h3>
+      <div id="policy-answer" style="font-size:13.5px;line-height:1.5;margin-bottom:10px;"></div>
+      <div id="policy-citations" style="font-size:12px;color:var(--muted);"></div>
+    </div>
+  </section>
+
+  <!-- WORKFLOW -->
+  <section class="panel" id="panel-workflow">
+    <div class="card">
+      <h3>LangGraph Workflow <span style="font-weight:400;color:var(--muted);font-size:12px;">(intake &rarr; clinical review &rarr; eligibility &rarr; referral)</span></h3>
+      <p class="hint">If the Clinical Safety Reviewer flags the message, the workflow pauses for a human decision before continuing.</p>
+      <div class="field" style="margin-bottom:10px;">
+        <label>Session ID</label>
+        <input id="workflow-session" style="width:260px" />
+      </div>
+      <textarea id="workflow-text" placeholder="I'd like to book a Dermatology appointment. My insurance ID is INS-12345678."></textarea>
+      <br/>
+      <button class="primary" onclick="startWorkflow()">Start<span id="workflow-spin" class="spinner"></span></button>
+      <button class="secondary" onclick="newSession()">New session ID</button>
+      <div id="workflow-error" class="error-box"></div>
+    </div>
+    <div class="card" id="workflow-result-card" style="display:none">
+      <h3>Status</h3>
+      <div id="workflow-status"></div>
+      <div id="workflow-resume-buttons" style="display:none">
+        <button class="secondary" style="border-color:var(--danger);color:var(--danger)" onclick="resumeWorkflow('confirm_escalate')">Confirm escalate</button>
+        <button class="secondary" onclick="resumeWorkflow('override_proceed')">Override &amp; proceed</button>
+      </div>
+      <pre class="json" id="workflow-json" style="margin-top:10px"></pre>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+
+  document.querySelectorAll(".tab-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+      document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+      btn.classList.add("active");
+      $("panel-" + btn.dataset.tab).classList.add("active");
+    });
+  });
+
+  function sharedFields() {
+    return { channel: $("channel").value, patient_id: $("patientId").value.trim() || null };
+  }
+
+  async function postJSON(url, body) {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      const detail = typeof data.detail === "string" ? data.detail : JSON.stringify(data.detail || data);
+      throw new Error(`${res.status}: ${detail}`);
+    }
+    return data;
+  }
+
+  function setBusy(key, busy) {
+    $(key + "-spin").textContent = busy ? "running…" : "";
+  }
+
+  // ---- Intake ----
+  async function runIntake() {
+    $("intake-error").textContent = "";
+    setBusy("intake", true);
+    try {
+      const data = await postJSON("/intake", { raw_text: $("intake-text").value, channel: $("channel").value });
+      $("intake-result-card").style.display = "block";
+      $("intake-result").textContent = JSON.stringify(data, null, 2);
+    } catch (e) {
+      $("intake-error").textContent = e.message;
+    } finally {
+      setBusy("intake", false);
+    }
+  }
+
+  // ---- Insurance / Referral chat ----
+  function appendBubble(logId, role, text, flagged) {
+    const log = $(logId);
+    const div = document.createElement("div");
+    div.className = "bubble " + role + (flagged ? " flagged" : "");
+    div.textContent = text;
+    log.appendChild(div);
+    log.scrollTop = log.scrollHeight;
+    return div;
+  }
+
+  async function runAgentChat(kind) {
+    const textEl = $(kind + "-text");
+    const text = textEl.value.trim();
+    if (!text) return;
+    $(kind + "-error").textContent = "";
+    appendBubble(kind + "-log", "user", text, false);
+    textEl.value = "";
+    setBusy(kind, true);
+    try {
+      const data = await postJSON(`/${kind}/chat`, { raw_text: text, ...sharedFields() });
+      const bubble = appendBubble(kind + "-log", "assistant", data.response, data.flagged);
+      if (data.tool_calls && data.tool_calls.length) {
+        const toolsDiv = document.createElement("div");
+        toolsDiv.className = "tool-calls";
+        data.tool_calls.forEach(tc => {
+          const line = document.createElement("div");
+          line.textContent = `→ ${tc.name}(${JSON.stringify(tc.args)})`;
+          toolsDiv.appendChild(line);
+        });
+        bubble.after(toolsDiv);
+      }
+    } catch (e) {
+      $(kind + "-error").textContent = e.message;
+    } finally {
+      setBusy(kind, false);
+    }
+  }
+
+  // ---- Policy Q&A ----
+  async function runPolicy() {
+    $("policy-error").textContent = "";
+    setBusy("policy", true);
+    try {
+      const data = await postJSON("/policy/ask", { question: $("policy-text").value, patient_id: sharedFields().patient_id });
+      $("policy-result-card").style.display = "block";
+      $("policy-answer").textContent = data.answer;
+      $("policy-citations").textContent = data.citations && data.citations.length
+        ? "Citations: " + data.citations.join(", ")
+        : (data.flagged ? "Flagged for a human coordinator -- no grounded answer found." : "");
+    } catch (e) {
+      $("policy-error").textContent = e.message;
+    } finally {
+      setBusy("policy", false);
+    }
+  }
+
+  // ---- Workflow ----
+  function newSession() {
+    $("workflow-session").value = "session-" + Math.random().toString(36).slice(2, 10);
+    $("workflow-result-card").style.display = "none";
+  }
+  newSession();
+
+  async function startWorkflow() {
+    $("workflow-error").textContent = "";
+    setBusy("workflow", true);
+    try {
+      const data = await postJSON("/workflow/start", {
+        raw_text: $("workflow-text").value,
+        session_id: $("workflow-session").value,
+        ...sharedFields(),
+      });
+      renderWorkflowResult(data);
+    } catch (e) {
+      $("workflow-error").textContent = e.message;
+    } finally {
+      setBusy("workflow", false);
+    }
+  }
+
+  async function resumeWorkflow(decision) {
+    $("workflow-error").textContent = "";
+    setBusy("workflow", true);
+    try {
+      const data = await postJSON("/workflow/resume", { session_id: $("workflow-session").value, decision });
+      renderWorkflowResult(data);
+    } catch (e) {
+      $("workflow-error").textContent = e.message;
+    } finally {
+      setBusy("workflow", false);
+    }
+  }
+
+  function renderWorkflowResult(data) {
+    $("workflow-result-card").style.display = "block";
+    $("workflow-json").textContent = JSON.stringify(data, null, 2);
+    const statusEl = $("workflow-status");
+    const resumeButtons = $("workflow-resume-buttons");
+    if (data.status === "needs_human_review") {
+      statusEl.innerHTML = `<div class="review-box"><strong>Paused for human review.</strong><br/>Reason: ${data.review.reason}</div>`;
+      resumeButtons.style.display = "block";
+    } else {
+      statusEl.innerHTML = `<div class="completed-box"><strong>Completed.</strong><br/>${data.final_response ?? ""}</div>`;
+      resumeButtons.style.display = "none";
+    }
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+referral_id,patient_id,specialty_key,referring_provider,reason,status,preauth_required,preauth_status,created_date,valid_until_date
+REF-00001,P00034,orthopedics,Self-referral,Chronic knee pain limiting mobility; PCP requests orthopedic evaluation.,expired,True,pending,2026-07-22,2026-09-20
+REF-00002,P00012,general_medicine,Self-referral,Annual wellness visit and medication review.,completed,False,,2026-07-14,2027-01-10
+REF-00003,P00022,dermatology,Dr. Kelley (PCP),New/changing skin lesion; PCP requests dermatology evaluation.,approved,False,,2026-07-06,2026-11-03
+REF-00004,P00037,neurology,Self-referral,Recurrent headaches with new neurological symptoms; PCP requests neurology evaluation.,completed,True,approved,2026-08-04,2026-11-02
+REF-00005,P00007,general_medicine,Self-referral,Annual wellness visit and medication review.,approved,False,,2026-08-02,2027-01-29
+REF-00006,P00055,gastroenterology,Dr. Francis (PCP),Persistent reflux symptoms; PCP requests GI evaluation.,expired,True,approved,2026-08-02,2026-10-01
+REF-00007,P00041,dermatology,Self-referral,New/changing skin lesion; PCP requests dermatology evaluation.,approved,False,,2026-07-01,2026-10-29
+REF-00008,P00030,cardiology,Dr. Chambers (PCP),Patient reports intermittent palpitations; PCP requests cardiology evaluation.,pending,False,,2026-07-08,2026-10-06
+REF-00009,P00003,orthopedics,Dr. Olson (PCP),Chronic knee pain limiting mobility; PCP requests orthopedic evaluation.,approved,True,approved,2026-08-02,2026-10-01
+REF-00010,P00059,dermatology,Self-referral,New/changing skin lesion; PCP requests dermatology evaluation.,completed,False,,2026-07-27,2026-11-24
+REF-00011,P00054,dermatology,Dr. Lucas (PCP),New/changing skin lesion; PCP requests dermatology evaluation.,completed,False,,2026-08-17,2026-12-15
+REF-00012,P00014,gastroenterology,Self-referral,Persistent reflux symptoms; PCP requests GI evaluation.,completed,True,pending,2026-07-22,2026-09-20
+REF-00013,P00052,cardiology,Self-referral,Patient reports intermittent palpitations; PCP requests cardiology evaluation.,approved,True,approved,2026-07-30,2026-10-28
+REF-00014,P00060,ent,Self-referral,Recurrent sinus congestion and hearing changes; PCP requests ENT evaluation.,expired,False,,2026-07-09,2026-10-07
+REF-00015,P00020,neurology,Self-referral,Recurrent headaches with new neurological symptoms; PCP requests neurology evaluation.,pending,True,pending,2026-07-05,2026-10-03
+REF-00016,P00019,endocrinology,Self-referral,Abnormal thyroid labs; PCP requests endocrinology evaluation.,expired,False,,2026-08-10,2026-11-08
+REF-00017,P00036,ent,Dr. Blankenship (PCP),Recurrent sinus congestion and hearing changes; PCP requests ENT evaluation.,completed,False,,2026-08-13,2026-11-11
+REF-00018,P00046,orthopedics,Self-referral,Chronic knee pain limiting mobility; PCP requests orthopedic evaluation.,approved,True,pending,2026-07-29,2026-09-27
+REF-00019,P00040,general_medicine,Dr. Willis (PCP),Annual wellness visit and medication review.,approved,False,,2026-07-09,2027-01-05
+REF-00020,P00033,neurology,Dr. Clark (PCP),Recurrent headaches with new neurological symptoms; PCP requests neurology evaluation.,approved,True,approved,2026-08-14,2026-11-12
+REF-00021,P00028,neurology,Self-referral,Recurrent headaches with new neurological symptoms; PCP requests neurology evaluation.,completed,True,approved,2026-07-19,2026-10-17
+REF-00022,P00005,gastroenterology,Dr. Morris (PCP),Persistent reflux symptoms; PCP requests GI evaluation.,approved,True,denied,2026-07-15,2026-09-13
+REF-00023,P00042,orthopedics,Self-referral,Chronic knee pain limiting mobility; PCP requests orthopedic evaluation.,pending,True,pending,2026-07-19,2026-09-17
+REF-00024,P00048,dermatology,Dr. Wilkerson (PCP),New/changing skin lesion; PCP requests dermatology evaluation.,pending,False,,2026-07-12,2026-11-09
+REF-00025,P00018,orthopedics,Dr. Soto (PCP),Chronic knee pain limiting mobility; PCP requests orthopedic evaluation.,completed,True,approved,2026-07-31,2026-09-29
+REF-00026,P00010,general_medicine,Self-referral,Annual wellness visit and medication review.,approved,False,,2026-07-28,2027-01-24
+REF-00027,P00032,neurology,Self-referral,Recurrent headaches with new neurological symptoms; PCP requests neurology evaluation.,completed,True,approved,2026-07-24,2026-10-22
+REF-00028,P00015,cardiology,Dr. Martinez (PCP),Patient reports intermittent palpitations; PCP requests cardiology evaluation.,completed,False,,2026-08-15,2026-11-13
+REF-00029,P00045,ent,Dr. Proctor (PCP),Recurrent sinus congestion and hearing changes; PCP requests ENT evaluation.,expired,False,,2026-07-12,2026-10-10
+REF-00030,P00004,orthopedics,Self-referral,Chronic knee pain limiting mobility; PCP requests orthopedic evaluation.,completed,True,pending,2026-06-21,2026-08-20

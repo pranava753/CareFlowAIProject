@@ -1,0 +1,4 @@
+plan_id,plan_name,tier,monthly_premium_usd,deductible_individual_usd,oop_max_individual_usd,coinsurance_pct,specialist_copay_usd,primary_care_copay_usd,preauth_threshold_usd
+PLN-SILVER-100,Silver Access 100,Silver,310,2500,7000,30,45,25,400
+PLN-GOLD-200,Gold Complete 200,Gold,460,1200,5000,20,35,15,700
+PLN-PLATINUM-300,Platinum Priority 300,Platinum,640,500,3000,10,20,10,1000

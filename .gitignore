@@ -1,0 +1,10 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+data/careflow/qdrant_store/
+data/careflow/bm25_index.pkl
+data/careflow/memory/
+data/careflow/human_queue.jsonl
+data/careflow/eval/golden_eval_results.jsonl
