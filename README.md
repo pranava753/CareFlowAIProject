@@ -136,7 +136,7 @@ dump at `data/careflow/eval/golden_eval_results.jsonl`.
 ```bash
 uvicorn app.api.main:app --reload
 ```
-
+Then see http://127.0.0.1:8000/ for `UI`
 Then see `/docs` for the interactive Swagger UI, or:
 
 ```bash
